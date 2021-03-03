@@ -1,8 +1,10 @@
-package org.AirportFrontApp;
+package org.AirportFrontApp.model;
 
 public class Airplane {
-    private String id;
+    private Integer id;
     private String brand;
+    private Integer yearMade;
+    private boolean isInTheAir;
 
     @Override
     public String toString() {
@@ -14,11 +16,11 @@ public class Airplane {
                 '}';
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -45,7 +47,4 @@ public class Airplane {
     public void setInTheAir(boolean inTheAir) {
         isInTheAir = inTheAir;
     }
-
-    private int yearMade;
-    private boolean isInTheAir;
 }
