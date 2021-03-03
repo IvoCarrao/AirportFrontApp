@@ -2,25 +2,26 @@ package org.AirportFrontApp.contoller;
 
 import org.AirportFrontApp.model.Airplane;
 import org.AirportFrontApp.model.ResponseService;
+import org.AirportFrontApp.service.AirplaneResponseVerifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.security.auth.login.Configuration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @org.springframework.stereotype.Controller
 public class Controller {
 
     private WebClient.Builder webClientBuilder;
 
+    private AirplaneResponseVerifier airplaneResponseVerifier;
+
     @Autowired
-    private Controller(WebClient.Builder webClient) {
+    private Controller(WebClient.Builder webClient, AirplaneResponseVerifier airplaneResponseVerifier) {
         this.webClientBuilder = webClient;
+        this.airplaneResponseVerifier = airplaneResponseVerifier;
     }
 
     @RequestMapping("home")
@@ -54,23 +55,7 @@ public class Controller {
                 //block makes us wait for the response from the webClient
                 .block();
 
-        ModelAndView mv = new ModelAndView();
-        if (responseService != null && responseService.getRequestedObject() instanceof Airplane) {
-            Airplane airplane = Optional.ofNullable((Airplane) responseService.getRequestedObject()).orElse(new Airplane());
-            if (airplane.getId() != null) {
-                mv.addObject("airplane", airplane);
-                mv.setViewName("getAirplane");
-            }
-            else{
-                mv.addObject("airplane", id);
-                mv.setViewName("airplaneError");
-            }
-        } else {
-            mv.addObject("airplane", id);
-            mv.setViewName("airplaneError");
-        }
-
-        return mv;
+        return airplaneResponseVerifier.verifyGetResponse(responseService) ;
     }
 
 }

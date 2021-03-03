@@ -8,7 +8,7 @@
 </head>
 <body>
 
-Operation failed. Reason: ${responseService.message}
+Server unable to respond
 
 </body>
 </html>
