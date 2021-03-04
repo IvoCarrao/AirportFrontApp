@@ -7,10 +7,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
 
-@Service
-public class AirplaneResponseVerifier {
+public class GetAirplaneResponseVerifier {
 
-    public ModelAndView verifyGetResponse(ResponseService responseService) {
+    public static ModelAndView verifyGetResponse(ResponseService responseService) {
         ModelAndView frontResponse = new ModelAndView();
 
         if (isResponseNull(responseService)) {
@@ -33,17 +32,17 @@ public class AirplaneResponseVerifier {
             frontResponse.setViewName("airplaneError");
             return frontResponse;
         }
-
+        //all went right
         frontResponse.addObject("airplane", airplane);
         frontResponse.setViewName("getAirplane");
         return frontResponse;
     }
 
-    private boolean isResponseNull(ResponseService responseService) {
+    private static boolean isResponseNull(ResponseService responseService) {
         return responseService == null;
     }
 
-    private boolean isAirplaneNull(Airplane airplane) {
+    private static boolean isAirplaneNull(Airplane airplane) {
         return airplane == null;
     }
 

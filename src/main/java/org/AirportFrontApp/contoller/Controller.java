@@ -2,7 +2,7 @@ package org.AirportFrontApp.contoller;
 
 import org.AirportFrontApp.model.Airplane;
 import org.AirportFrontApp.model.ResponseService;
-import org.AirportFrontApp.service.AirplaneResponseVerifier;
+import org.AirportFrontApp.service.GetAirplaneResponseVerifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -16,12 +16,9 @@ public class Controller {
 
     private WebClient.Builder webClientBuilder;
 
-    private AirplaneResponseVerifier airplaneResponseVerifier;
-
     @Autowired
-    private Controller(WebClient.Builder webClient, AirplaneResponseVerifier airplaneResponseVerifier) {
+    private Controller(WebClient.Builder webClient) {
         this.webClientBuilder = webClient;
-        this.airplaneResponseVerifier = airplaneResponseVerifier;
     }
 
     @RequestMapping("home")
@@ -55,7 +52,7 @@ public class Controller {
                 //block makes us wait for the response from the webClient
                 .block();
 
-        return airplaneResponseVerifier.verifyGetResponse(responseService) ;
+        return GetAirplaneResponseVerifier.verifyGetResponse(responseService) ;
     }
 
 }
